@@ -68,7 +68,7 @@ namespace custcontrol
             
             set { _hidden = value; }
         }
-
+        
         public bool CanExpand => (_childNodes.Count > 0);
         
         public void Add(string itemName) 
