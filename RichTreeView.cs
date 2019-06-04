@@ -49,34 +49,40 @@ namespace ccontrol
         {
             e.Graphics.TranslateTransform(this.AutoScrollPosition.X, this.AutoScrollPosition.Y);
             base.OnPaint(e);
+
+            DrawColumns(e, DrawString);
+
+            foreach (var child in _root.Children)
+                DisplayRichTreeView(child, e);
+
+            Reset();
+        }
+
+        protected virtual void Column_WidthChanged(object sender, EventArgs e) => this.Invalidate();
+
+        private void DrawColumns(PaintEventArgs e, RichTreeViewColumn.DrawItem drawiItemDelegate)
+        {
             int offset = _treeNodeMaxOffsetX;
-            
             foreach (RichTreeViewColumn column in _columns)
             {
                 column.OffsetX = offset;
-                SizeF size = e.Graphics.MeasureString(column.Name, this.Font);
 
+                if (string.IsNullOrEmpty(column.Name))
+                    column.Name = " ";
+
+                SizeF size = e.Graphics.MeasureString(column.Name, this.Font);
                 size.Width = column.Width;
 
                 if (column.Width <= 0)
                     size.Width = 1;
 
-                column.DrawColumnItem = DrawString;
-                column.CreateColumnEditor = EditItem;
-
+                column.DrawColumnItem = drawiItemDelegate;
                 column.DrawColumnItem?.Invoke(column.Name, e, new RectangleF(new Point(offset, 5), size));
 
                 e.Graphics.DrawLine(Pens.Black, new Point(column.OffsetX - 1, 0), new Point(column.OffsetX - 1, this.Height));
                 offset += column.Width;
             }
-
-            foreach (var child in _root.Children)
-                DisplayRichTreeView(child, e);
-            
-            Reset();
         }
-
-        protected virtual void Column_WidthChanged(object sender, EventArgs e) => this.Invalidate();
 
         private void Reset()
         {
@@ -178,10 +184,11 @@ namespace ccontrol
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            IsNodeContains(Root, e.Location);
+            IsNodeContains(Root, e.Location, EditItem);
         }
 
-        private void IsNodeContains(RichTreeViewItem node, Point mouseLocation)
+        private void IsNodeContains(RichTreeViewItem node, Point mouseLocation, 
+            RichTreeViewColumn.CreateEditControl editorControlDel)
         {
             if (node.Values != null)
                 for (int i = 0; i < _columns.Count; i++)
@@ -196,12 +203,13 @@ namespace ccontrol
                             {
                                 if (rect.Width > _columns[i].Width)
                                     rect.Width = _columns[i].Width;
+                                _columns[i].CreateColumnEditor = editorControlDel;
                                 _columns[i]?.CreateColumnEditor.Invoke(node, i, rect);
                             }
                         }
 
             foreach (RichTreeViewItem subnode in node.Children)
-                IsNodeContains(subnode, mouseLocation);
+                IsNodeContains(subnode, mouseLocation, editorControlDel);
         }
 
         private void EditItem(RichTreeViewItem node, int index, Rectangle bounds)

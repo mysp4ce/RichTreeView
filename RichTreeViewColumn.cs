@@ -57,6 +57,7 @@ namespace ccontrol
         public DrawItem DrawColumnItem;
         public CreateEditControl CreateColumnEditor;
 
+        [Browsable(true)]
         public int Width
         {
             get { return _width; }
