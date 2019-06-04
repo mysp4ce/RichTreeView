@@ -1,0 +1,9 @@
+C:\MyProjects\ccontrol\ccontrol\bin\Debug\ccontrol.exe.config
+C:\MyProjects\ccontrol\ccontrol\bin\Debug\ccontrol.exe
+C:\MyProjects\ccontrol\ccontrol\bin\Debug\ccontrol.pdb
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.Properties.Resources.resources
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.csproj.GenerateResource.Cache
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.exe
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.pdb
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.Form1.resources
+C:\MyProjects\ccontrol\ccontrol\obj\Debug\ccontrol.csprojResolveAssemblyReference.cache

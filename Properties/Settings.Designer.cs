@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace custcontrol.Properties
+namespace ccontrol.Properties
 {
 
 
